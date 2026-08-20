@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FolderPlus, Plus, Edit2, Trash2, BookOpen, Layers } from 'lucide-react';
-import categoryService from '@/services/categoryService';
+import { categoryService } from '@/services/categoryService';
 import { CategoryResponse } from '@/types';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import ConfirmModal from '@/components/common/ConfirmModal';
@@ -30,7 +30,7 @@ export const CategoriesPage: React.FC = () => {
     try {
       setLoading(true);
       const res = await categoryService.getAllCategories();
-      setCategories(res);
+      setCategories((res as any)?.data || res);
     } catch (err) {
       toast.error('Failed to load categories');
     } finally {

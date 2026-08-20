@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { History, RefreshCw, CheckCircle2, XCircle, Clock, Search, Calendar, Award } from 'lucide-react';
-import attemptService from '@/services/attemptService';
+import { attemptService } from '@/services/attemptService';
 import { QuizResultResponse, PagedResponse } from '@/types';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Pagination from '@/components/common/Pagination';
@@ -19,7 +19,7 @@ export const AttemptsPage: React.FC = () => {
     try {
       setLoading(true);
       const res = await attemptService.getAllAttemptsAdmin(pageNo, 10);
-      setAttemptsData(res);
+      setAttemptsData((res as any)?.data || res);
     } catch (err) {
       console.error('Failed to load attempts', err);
     } finally {

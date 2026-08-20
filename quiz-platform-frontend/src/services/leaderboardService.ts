@@ -18,3 +18,5 @@ export const leaderboardService = {
     return response.data;
   }
 };
+
+export default leaderboardService;

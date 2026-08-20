@@ -40,9 +40,23 @@ export const attemptService = {
     return response.data;
   },
 
+  getMyAttempts: async (page = 0, size = 10) => {
+    const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
+    const response = await api.get<ApiResponse<PagedResponse<QuizResultResponse>>>(`/users/me/attempts?${params.toString()}`);
+    return response.data;
+  },
+
   getAllAttempts: async (page = 0, size = 10) => {
+    const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
+    const response = await api.get<ApiResponse<PagedResponse<QuizResultResponse>>>(`/admin/attempts?${params.toString()}`);
+    return response.data;
+  },
+
+  getAllAttemptsAdmin: async (page = 0, size = 10) => {
     const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
     const response = await api.get<ApiResponse<PagedResponse<QuizResultResponse>>>(`/admin/attempts?${params.toString()}`);
     return response.data;
   }
 };
+
+export default attemptService;

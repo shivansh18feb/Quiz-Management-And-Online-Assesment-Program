@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Trophy, Medal, Crown, Filter, RefreshCw, Clock, Award } from 'lucide-react';
-import leaderboardService from '@/services/leaderboardService';
-import quizService from '@/services/quizService';
+import { leaderboardService } from '@/services/leaderboardService';
+import { quizService } from '@/services/quizService';
 import { LeaderboardEntry, QuizSummaryResponse, PagedResponse } from '@/types';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Pagination from '@/components/common/Pagination';
@@ -25,9 +25,10 @@ export const LeaderboardPage: React.FC = () => {
   const loadQuizzes = async () => {
     try {
       const res = await quizService.getPublishedQuizzes(undefined, undefined, undefined, 0, 100);
-      setQuizzes(res.content);
-      if (res.content.length > 0) {
-        setSelectedQuizId(res.content[0].id);
+      const data: PagedResponse<QuizSummaryResponse> = (res as any)?.data || res;
+      setQuizzes(data?.content || []);
+      if (data?.content && data.content.length > 0) {
+        setSelectedQuizId(data.content[0].id);
       }
     } catch (err) {
       console.error('Failed to load quizzes', err);
@@ -39,10 +40,10 @@ export const LeaderboardPage: React.FC = () => {
       setLoading(true);
       if (activeTab === 'GLOBAL') {
         const res = await leaderboardService.getGlobalLeaderboard(pageNo, 20);
-        setLeaderboard(res);
+        setLeaderboard((res as any)?.data || res);
       } else if (selectedQuizId) {
         const res = await leaderboardService.getQuizLeaderboard(selectedQuizId, pageNo, 20);
-        setLeaderboard(res);
+        setLeaderboard((res as any)?.data || res);
       }
     } catch (err) {
       console.error('Failed to load leaderboard', err);

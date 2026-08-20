@@ -255,16 +255,23 @@ export interface StudentDashboardStats {
   recentAttempts: AttemptSummary[];
 }
 
+export interface UserStatusRequest {
+  enabled?: boolean;
+  accountLocked?: boolean;
+}
+
 export interface AttemptSummary {
   attemptId: number;
   quizId: number;
   quizTitle: string;
   score: number;
+  obtainedMarks?: number;
   totalMarks: number;
   percentage: number;
   isPassed: boolean;
   status: AttemptStatus;
   createdAt: string;
+  endTime?: string;
 }
 
 export interface AdminDashboardStats {

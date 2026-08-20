@@ -375,7 +375,7 @@ public class QuizAttemptServiceImpl implements QuizAttemptService {
         long totalAttempts = attemptRepository.count();
 
         Double avgScore = attemptRepository.getAverageScore();
-        long passedCount = attemptRepository.countByPassedTrue();
+        long passedCount = attemptRepository.countByIsPassedTrue();
         double passRate = (totalAttempts > 0) ? ((double) passedCount / totalAttempts) * 100 : 0;
 
         return AdminDashboardStats.builder()

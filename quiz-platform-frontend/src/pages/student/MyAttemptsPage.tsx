@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { History, Award, CheckCircle2, XCircle, Eye, RefreshCw, Calendar, Clock } from 'lucide-react';
-import attemptService from '@/services/attemptService';
+import { attemptService } from '@/services/attemptService';
 import { QuizResultResponse, PagedResponse } from '@/types';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import EmptyState from '@/components/common/EmptyState';
@@ -9,6 +9,7 @@ import Pagination from '@/components/common/Pagination';
 import { format } from 'date-fns';
 
 export const MyAttemptsPage: React.FC = () => {
+  const navigate = useNavigate();
   const [attemptsData, setAttemptsData] = useState<PagedResponse<QuizResultResponse> | null>(null);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
@@ -21,7 +22,7 @@ export const MyAttemptsPage: React.FC = () => {
     try {
       setLoading(true);
       const res = await attemptService.getMyAttempts(pageNo, 10);
-      setAttemptsData(res);
+      setAttemptsData((res as any)?.data || res);
     } catch (err) {
       console.error('Failed to load attempts', err);
     } finally {
@@ -54,10 +55,13 @@ export const MyAttemptsPage: React.FC = () => {
         <LoadingSpinner message="Loading your attempts history..." />
       ) : !attemptsData || attemptsData.content.length === 0 ? (
         <EmptyState
+          icon={History}
           title="No Quiz Attempts Yet"
           description="You haven't attempted any quizzes so far. Browse available quizzes to test your knowledge!"
-          actionLabel="Browse Quizzes"
-          actionLink="/student/quizzes"
+          action={{
+            label: 'Browse Quizzes',
+            onClick: () => navigate('/student/quizzes'),
+          }}
         />
       ) : (
         <div className="space-y-4">

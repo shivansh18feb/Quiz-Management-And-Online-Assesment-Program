@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FilePlus, ArrowLeft, Save, Sparkles } from 'lucide-react';
-import quizService from '@/services/quizService';
-import categoryService from '@/services/categoryService';
+import { quizService } from '@/services/quizService';
+import { categoryService } from '@/services/categoryService';
 import { CategoryResponse, Difficulty, QuizStatus } from '@/types';
 import toast from 'react-hot-toast';
 import { getErrorMessage } from '@/utils/api';
@@ -32,9 +32,10 @@ export const CreateQuizPage: React.FC = () => {
   const loadCategories = async () => {
     try {
       setLoadingCats(true);
-      const cats = await categoryService.getAllCategories();
+      const res = await categoryService.getAllCategories();
+      const cats = (res as any)?.data || res;
       setCategories(cats);
-      if (cats.length > 0) setCategoryId(cats[0].id);
+      if (cats && cats.length > 0) setCategoryId(cats[0].id);
     } catch (err) {
       toast.error('Failed to load categories');
     } finally {
@@ -66,8 +67,9 @@ export const CreateQuizPage: React.FC = () => {
         status,
       });
 
+      const createdQuiz = (created as any)?.data || created;
       toast.success('Quiz created successfully! You can now add questions.');
-      navigate(`/admin/quizzes/${created.id}/questions`);
+      navigate(`/admin/quizzes/${createdQuiz.id}/questions`);
     } catch (err) {
       toast.error(getErrorMessage(err));
     } finally {

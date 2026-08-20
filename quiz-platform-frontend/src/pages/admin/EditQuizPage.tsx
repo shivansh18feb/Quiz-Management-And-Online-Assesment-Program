@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Edit3, ArrowLeft, Save } from 'lucide-react';
-import quizService from '@/services/quizService';
-import categoryService from '@/services/categoryService';
+import { quizService } from '@/services/quizService';
+import { categoryService } from '@/services/categoryService';
 import { CategoryResponse, Difficulty, QuizStatus, QuizResponse } from '@/types';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import toast from 'react-hot-toast';
@@ -36,10 +36,13 @@ export const EditQuizPage: React.FC = () => {
   const loadData = async (quizId: number) => {
     try {
       setLoading(true);
-      const [quiz, cats] = await Promise.all([
+      const [quizRes, catsRes] = await Promise.all([
         quizService.getQuizById(quizId),
         categoryService.getAllCategories(),
       ]);
+
+      const quiz: QuizResponse = (quizRes as any)?.data || quizRes;
+      const cats: CategoryResponse[] = (catsRes as any)?.data || catsRes;
 
       setCategories(cats);
       setTitle(quiz.title);

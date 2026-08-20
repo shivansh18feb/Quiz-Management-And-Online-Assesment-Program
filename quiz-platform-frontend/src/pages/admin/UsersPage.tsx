@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Users, Search, Shield, Lock, Unlock, UserCheck, UserX, RefreshCw, Trash2 } from 'lucide-react';
-import userService from '@/services/userService';
+import { userService } from '@/services/userService';
 import { UserResponse, PagedResponse } from '@/types';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Pagination from '@/components/common/Pagination';
@@ -31,7 +31,7 @@ export const UsersPage: React.FC = () => {
         pageNo,
         10
       );
-      setUsersData(res);
+      setUsersData((res as any)?.data || res);
     } catch (err) {
       toast.error('Failed to load users');
     } finally {
@@ -47,9 +47,10 @@ export const UsersPage: React.FC = () => {
 
   const handleToggleStatus = async (user: UserResponse) => {
     try {
-      const updated = await userService.updateUserStatus(user.id, {
+      const res = await userService.updateUserStatus(user.id, {
         enabled: !user.enabled,
       });
+      const updated: UserResponse = (res as any)?.data || res;
       toast.success(`User ${updated.enabled ? 'activated' : 'deactivated'} successfully`);
       loadUsers(page, search, roleFilter);
     } catch (err) {
@@ -59,9 +60,10 @@ export const UsersPage: React.FC = () => {
 
   const handleToggleLock = async (user: UserResponse) => {
     try {
-      const updated = await userService.updateUserStatus(user.id, {
+      const res = await userService.updateUserStatus(user.id, {
         accountLocked: !user.accountLocked,
       });
+      const updated: UserResponse = (res as any)?.data || res;
       toast.success(`Account ${updated.accountLocked ? 'locked' : 'unlocked'} successfully`);
       loadUsers(page, search, roleFilter);
     } catch (err) {

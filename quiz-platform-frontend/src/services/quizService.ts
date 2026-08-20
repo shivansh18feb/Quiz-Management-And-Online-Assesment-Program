@@ -1,6 +1,7 @@
 import api from '@/utils/api';
 import { 
   QuizResponse, 
+  QuizSummaryResponse,
   CreateQuizRequest, 
   QuestionResponse, 
   CreateQuestionRequest, 
@@ -44,6 +45,16 @@ export const quizService = {
     return response.data;
   },
 
+  getPublishedQuizzes: async (search?: string, categoryId?: number, difficulty?: string, page = 0, size = 10) => {
+    const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
+    if (search) params.append('search', search);
+    if (categoryId) params.append('categoryId', categoryId.toString());
+    if (difficulty) params.append('difficulty', difficulty);
+    
+    const response = await api.get<ApiResponse<PagedResponse<QuizSummaryResponse>>>(`/quizzes?${params.toString()}`);
+    return response.data;
+  },
+
   // Questions
   getQuestionsByQuizId: async (quizId: number) => {
     const response = await api.get<ApiResponse<QuestionResponse[]>>(`/quizzes/${quizId}/questions`);
@@ -65,3 +76,5 @@ export const quizService = {
     return response.data;
   }
 };
+
+export default quizService;

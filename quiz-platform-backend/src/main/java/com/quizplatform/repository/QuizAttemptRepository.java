@@ -23,7 +23,7 @@ public interface QuizAttemptRepository extends JpaRepository<QuizAttempt, Long> 
 
     long countByUserId(Long userId);
 
-    long countByPassedTrue();
+    long countByIsPassedTrue();
 
     @Query("SELECT COALESCE(AVG(qa.score), 0.0) FROM QuizAttempt qa WHERE qa.status = 'SUBMITTED' OR qa.status = 'AUTO_SUBMITTED'")
     Double getAverageScore();

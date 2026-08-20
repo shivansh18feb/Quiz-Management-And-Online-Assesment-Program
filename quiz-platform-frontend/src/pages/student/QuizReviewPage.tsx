@@ -25,8 +25,8 @@ export const QuizReviewPage: React.FC = () => {
       setLoading(true);
       setError(null);
       const res = await attemptService.getReview(id);
-      if (res.success && res.data) {
-        setReviewData(res.data);
+      if (res && ((res as any).data || res)) {
+        setReviewData((res as any).data || res);
       }
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to load attempt review.');
@@ -36,7 +36,7 @@ export const QuizReviewPage: React.FC = () => {
   };
 
   if (loading) return <LoadingSpinner message="Loading quiz review..." />;
-  if (error || !reviewData) return <ErrorState title="Error Loading Review" message={error || 'Review data not found.'} onRetry={() => loadReview(parseInt(attemptId!))} />;
+  if (error || !reviewData) return <ErrorState message={error || 'Review data not found.'} onRetry={() => loadReview(parseInt(attemptId!))} />;
 
   const { quizTitle, result, questions } = reviewData;
 

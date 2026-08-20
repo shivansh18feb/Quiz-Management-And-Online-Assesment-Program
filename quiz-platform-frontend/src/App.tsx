@@ -14,8 +14,8 @@ import { NotFoundPage } from './pages/public/NotFoundPage';
 
 // Student Pages
 import StudentDashboard from './pages/student/StudentDashboard';
-import { QuizListPage } from './pages/student/QuizListPage';
-import { QuizDetailPage } from './pages/student/QuizDetailPage';
+import QuizListPage from './pages/student/QuizListPage';
+import QuizDetailPage from './pages/student/QuizDetailPage';
 import QuizAttemptPage from './pages/student/QuizAttemptPage';
 import QuizResultPage from './pages/student/QuizResultPage';
 import QuizReviewPage from './pages/student/QuizReviewPage';
@@ -26,10 +26,10 @@ import { ProfilePage } from './pages/student/ProfilePage';
 // Admin Pages
 import AdminDashboard from './pages/admin/AdminDashboard';
 import UsersPage from './pages/admin/UsersPage';
-import { QuizzesPage } from './pages/admin/QuizzesPage';
+import QuizzesPage from './pages/admin/QuizzesPage';
 import { CreateQuizPage } from './pages/admin/CreateQuizPage';
 import { EditQuizPage } from './pages/admin/EditQuizPage';
-import { QuestionsPage } from './pages/admin/QuestionsPage';
+import QuestionsPage from './pages/admin/QuestionsPage';
 import { CategoriesPage } from './pages/admin/CategoriesPage';
 import { AttemptsPage } from './pages/admin/AttemptsPage';
 import { AdminLeaderboardPage } from './pages/admin/AdminLeaderboardPage';

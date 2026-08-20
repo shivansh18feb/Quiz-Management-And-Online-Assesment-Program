@@ -27,13 +27,37 @@ export const userService = {
     return response.data;
   },
 
+  getAllUsers: async (search?: string, role?: string, page = 0, size = 10) => {
+    const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
+    if (search) params.append('search', search);
+    if (role) params.append('role', role);
+    
+    const response = await api.get<ApiResponse<PagedResponse<UserResponse>>>(`/users?${params.toString()}`);
+    return response.data;
+  },
+
   getUserById: async (id: number) => {
     const response = await api.get<ApiResponse<UserResponse>>(`/users/${id}`);
     return response.data;
   },
 
+  updateUser: async (id: number, data: UpdateProfileRequest) => {
+    const response = await api.put<ApiResponse<UserResponse>>(`/users/${id}`, data);
+    return response.data;
+  },
+
+  updateUserStatus: async (id: number, data: { enabled?: boolean; accountLocked?: boolean }) => {
+    const response = await api.patch<ApiResponse<UserResponse>>(`/users/${id}/status`, data);
+    return response.data;
+  },
+
   toggleUserStatus: async (id: number) => {
     const response = await api.put<ApiResponse<UserResponse>>(`/users/${id}/toggle-status`);
+    return response.data;
+  },
+
+  deleteUser: async (id: number) => {
+    const response = await api.delete<ApiResponse<void>>(`/users/${id}`);
     return response.data;
   },
 
@@ -47,3 +71,5 @@ export const userService = {
     return response.data;
   }
 };
+
+export default userService;

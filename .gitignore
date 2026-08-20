@@ -1,0 +1,17 @@
+# IntelliJ
+.idea/
+**/.idea/
+*.iml
+
+# Maven
+**/target/
+
+# Node
+**/node_modules/
+
+# Frontend build
+**/dist/
+
+# Environment
+.env
+.env.*

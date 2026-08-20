@@ -3,6 +3,7 @@ import {
   LoginRequest, 
   RegisterRequest, 
   AuthResponse, 
+  UserResponse,
   ApiResponse, 
   ChangePasswordRequest 
 } from '@/types';
@@ -41,5 +42,17 @@ export const authService = {
   changePassword: async (data: ChangePasswordRequest) => {
     const response = await api.post<ApiResponse<void>>('/auth/change-password', data);
     return response.data;
+  },
+
+  updateProfile: async (data: { firstName: string; lastName: string }) => {
+    const response = await api.put<ApiResponse<UserResponse>>('/auth/profile', data);
+    return response.data;
+  },
+
+  getCurrentUser: async () => {
+    const response = await api.get<ApiResponse<UserResponse>>('/auth/me');
+    return response.data;
   }
 };
+
+export default authService;

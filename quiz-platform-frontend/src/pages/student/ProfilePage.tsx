@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { User, Lock, Save, KeyRound, Shield, CheckCircle } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import authService from '@/services/authService';
+import { authService } from '@/services/authService';
 import toast from 'react-hot-toast';
 import { getErrorMessage } from '@/utils/api';
 
@@ -27,7 +27,8 @@ export const ProfilePage: React.FC = () => {
     }
     try {
       setUpdatingProfile(true);
-      const updatedUser = await authService.updateProfile({ firstName, lastName });
+      const res = await authService.updateProfile({ firstName, lastName });
+      const updatedUser = (res as any)?.data || res;
       updateUser(updatedUser);
       toast.success('Profile updated successfully!');
     } catch (err) {

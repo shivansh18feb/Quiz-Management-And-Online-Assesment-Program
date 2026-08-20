@@ -146,7 +146,7 @@ const StudentDashboard: React.FC = () => {
                     <td className="text-gray-400 text-xs">
                       {attempt.endTime ? new Date(attempt.endTime).toLocaleDateString() : 'In Progress'}
                     </td>
-                    <td className="font-medium text-white">{attempt.obtainedMarks} / {attempt.totalMarks} ({attempt.percentage}%)</td>
+                    <td className="font-medium text-white">{attempt.obtainedMarks ?? attempt.score} / {attempt.totalMarks} ({attempt.percentage}%)</td>
                     <td>
                       <span className={`badge ${attempt.isPassed ? 'badge-success' : 'badge-danger'}`}>
                         {attempt.isPassed ? 'PASSED' : 'FAILED'}
