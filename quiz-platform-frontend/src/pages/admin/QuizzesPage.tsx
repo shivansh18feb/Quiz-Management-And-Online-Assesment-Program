@@ -62,7 +62,9 @@ const QuizzesPage: React.FC = () => {
                 <th className="px-6 py-4 font-medium">Category</th>
                 <th className="px-6 py-4 font-medium">Stats</th>
                 <th className="px-6 py-4 font-medium">Status</th>
-                <th className="px-6 py-4 font-medium text-right">Actions</th>
+                <th className="px-6 py-4 font-medium text-right">
+                  Actions
+                </th>
               </tr>
             </thead>
 
@@ -105,6 +107,7 @@ const QuizzesPage: React.FC = () => {
 
                   <td className="px-6 py-4 text-right">
                     <div className="flex justify-end space-x-2">
+                      {/* Manage Questions */}
                       <button
                         onClick={() =>
                           navigate(`/admin/quizzes/${quiz.id}/questions`)
@@ -115,13 +118,18 @@ const QuizzesPage: React.FC = () => {
                         <Settings className="w-5 h-5" />
                       </button>
 
+                      {/* Edit Quiz */}
                       <button
+                        onClick={() =>
+                          navigate(`/admin/quizzes/${quiz.id}/edit`)
+                        }
                         className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
                         title="Edit Quiz"
                       >
                         <Edit className="w-5 h-5" />
                       </button>
 
+                      {/* Delete Quiz */}
                       <button
                         className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
                         title="Delete Quiz"
