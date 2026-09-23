@@ -18,8 +18,9 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
     Page<Quiz> findByCategoryId(Long categoryId, Pageable pageable);
 
     @Query("SELECT q FROM Quiz q WHERE " +
-           "(:search IS NULL OR LOWER(q.title) LIKE LOWER(CONCAT('%', :search, '%')) " +
-           "OR LOWER(q.description) LIKE LOWER(CONCAT('%', :search, '%'))) " +
+           "(:search IS NULL OR " +
+           "LOWER(q.title) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+           "LOWER(COALESCE(q.description, '')) LIKE LOWER(CONCAT('%', :search, '%'))) " +
            "AND (:status IS NULL OR q.status = :status) " +
            "AND (:categoryId IS NULL OR q.category.id = :categoryId) " +
            "AND (:difficulty IS NULL OR q.difficulty = :difficulty)")
