@@ -126,7 +126,7 @@ public class QuizServiceImpl implements QuizService {
     public PagedResponse<QuizSummaryResponse> getAllQuizzes(
             String search, QuizStatus status, Long categoryId, Difficulty difficulty, Pageable pageable) {
         Page<Quiz> quizPage = quizRepository.findByFilters(
-                (search != null && !search.isBlank()) ? search : null,
+                (search != null && !search.isBlank()) ? search : "",
                 status, categoryId, difficulty, pageable);
         Page<QuizSummaryResponse> responsePage = quizPage.map(quizMapper::toQuizSummaryResponse);
         return PagedResponse.of(responsePage);
