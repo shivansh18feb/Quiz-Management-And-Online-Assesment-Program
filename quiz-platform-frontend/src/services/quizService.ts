@@ -11,14 +11,31 @@ import {
 } from '@/types';
 
 export const quizService = {
-  getQuizzes: async (page = 0, size = 10, categoryId?: number, status?: QuizStatus) => {
-    const params = new URLSearchParams({ page: page.toString(), size: size.toString() });
-    if (categoryId) params.append('categoryId', categoryId.toString());
-    if (status) params.append('status', status);
-    
-    const response = await api.get<ApiResponse<PagedResponse<QuizResponse>>>(`/quizzes?${params.toString()}`);
-    return response.data;
-  },
+  getQuizzes: async (
+  page = 0,
+  size = 10,
+  categoryId?: number,
+  status?: QuizStatus
+) => {
+  const params = new URLSearchParams({
+    page: page.toString(),
+    size: size.toString(),
+  });
+
+  if (categoryId) {
+    params.append('categoryId', categoryId.toString());
+  }
+
+  if (status) {
+    params.append('status', status);
+  }
+
+  const response = await api.get<
+    ApiResponse<PagedResponse<QuizSummaryResponse>>
+  >(`/quizzes/admin/all?${params.toString()}`);
+
+  return response.data;
+},
 
   getQuizById: async (id: number) => {
     const response = await api.get<ApiResponse<QuizResponse>>(`/quizzes/${id}`);
